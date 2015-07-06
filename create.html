@@ -13,7 +13,12 @@
 
 		<script type="text/javascript">
 
-			var vertices = [];
+			var vx = [];
+
+			var obj = {
+				vertices: vx,
+				edges: []
+			};
 
 			document.addEventListener("DOMContentLoaded", init, false);
 
@@ -44,8 +49,9 @@
 					ctx.arc(oldX , oldY, 10, 0, 2*Math.PI);
 					ctx.stroke();
 
-					vertices.push([x,y]);
-					console.log(vertices);
+					vx.push({x:x, y:y});
+					document.getElementById("out").innerHTML = JSON.stringify(obj, null, 4);
+					console.log(vx);
 				}
 				else 
 				{
@@ -63,5 +69,8 @@
 
 	<body>
 		<canvas id="canvas" width="480" height="800"></canvas>
+		<div id="out" align="right"> 
+		
+		</div>
 	</body>
 </html>
