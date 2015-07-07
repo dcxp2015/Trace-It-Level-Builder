@@ -14,10 +14,11 @@
 		<script type="text/javascript">
 
 			var vx = [];
+			var eg = []
 
 			var obj = {
 				vertices: vx,
-				edges: []
+				edges: eg
 			};
 
 			document.addEventListener("DOMContentLoaded", init, false);
@@ -50,8 +51,16 @@
 					ctx.stroke();
 
 					vx.push({x:x, y:y});
+
+					eg.push([0]);
+					for(var i = 0; i < vx.length; i++){
+						for(var j = eg[i].length; j < vx.length; j ++){
+							eg[i].push(0);
+						}
+					}
+
+
 					document.getElementById("out").innerHTML = JSON.stringify(obj, null, 4);
-					console.log(vx);
 				}
 				else 
 				{
