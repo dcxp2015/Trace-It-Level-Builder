@@ -19,6 +19,8 @@
 			var lineend = null; 
 			var startindex; 
 			var endindex; 
+			var vgridlines = [120, 160, 240, 320, 360];
+			var hgridlines = [200, 800/3, 400, 1600/3, 600];
 			var obj = {
 				vertices: vx,
 				edges: eg
@@ -115,7 +117,7 @@
 					{
 						// console.log(distance(x*480, vx[i].x * 480, y * 800, vx[i].y * 800)); 
 
-						if (distance(x*480, vx[i].x * 480, y * 800, vx[i].y * 800) < 10)
+						if (distance(x*480, vx[i].x * 480, y * 800, vx[i].y * 800) < 20)
 						{
 							incircle = true; 
 							if(linestart == null){
@@ -148,9 +150,28 @@
 					}
 					if(incircle == false)
 					{
+						var newX = x*480;
+						var newY = y*800;
+						console.log(newX)
+						for(var i = 0; i < vgridlines.length; i++){
+							console.log(vgridlines[i]);
+							console.log(Math.abs(newX - vgridlines[i]));
+							if(Math.abs(newX - vgridlines[i]) < 10){
+								newX = vgridlines[i];
+							}
+						}
+						for(var j = 0; j < hgridlines.length; j ++){
+							if(Math.abs(newY - hgridlines[j]) < 10){
+								newY = hgridlines[j];
+							}
+						}
+
 						ctx.beginPath();
-						ctx.arc(oldX , oldY, 10, 0, 2*Math.PI);
+						ctx.arc(newX , newY, 10, 0, 2*Math.PI);
 						ctx.stroke();
+
+						x = newX/480;
+						y = newY/800;
 
 						vx.push({x:x, y:y});
 
