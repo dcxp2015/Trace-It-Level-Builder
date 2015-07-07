@@ -53,18 +53,18 @@
 					
 					for(i = 0; i < vx.length; i++)
 					{
-						console.log(distance(x*480, vx[i].x * 480, y * 800, vx[i].y * 800)); 
+						// console.log(distance(x*480, vx[i].x * 480, y * 800, vx[i].y * 800)); 
 
 						if (distance(x*480, vx[i].x * 480, y * 800, vx[i].y * 800) < 10)
 						{
 							incircle = true; 
 							if(linestart == null){
-								console.log("set linestart")
+								// console.log("set linestart")
 								linestart = vx[i];
 								startindex = i; 
 							}
 							else if(linestart != null){
-								console.log("set lineend")
+								// console.log("set lineend")
 								lineend = vx[i]; 
 								endindex = i; 
 
