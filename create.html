@@ -15,7 +15,10 @@
 
 			var vx = [];
 			var eg = []
-
+			var linestart = null;
+			var lineend = null; 
+			var startindex; 
+			var endindex; 
 			var obj = {
 				vertices: vx,
 				edges: eg
@@ -34,6 +37,7 @@
 				var x = new Number();
 				var y = new Number();
 				var canvas = document.getElementById("canvas");
+				var ctx = canvas.getContext("2d");
 
 
 				if (event.x != undefined && event.y != undefined)
@@ -42,23 +46,61 @@
 					y = event.y;
 					var oldX = x - canvas.offsetLeft;
 					var oldY = y - canvas.offsetTop;
+					var incircle = false; 
 					x = oldX/480;
 					y = oldY/800;
 
-					var ctx = canvas.getContext("2d");
-					ctx.beginPath();
-					ctx.arc(oldX , oldY, 10, 0, 2*Math.PI);
-					ctx.stroke();
+					
+					for(i = 0; i < vx.length; i++)
+					{
+						console.log(distance(x*480, vx[i].x * 480, y * 800, vx[i].y * 800)); 
 
-					vx.push({x:x, y:y});
+						if (distance(x*480, vx[i].x * 480, y * 800, vx[i].y * 800) < 10)
+						{
+							incircle = true; 
+							if(linestart == null){
+								console.log("set linestart")
+								linestart = vx[i];
+								startindex = i; 
+							}
+							else if(linestart != null){
+								console.log("set lineend")
+								lineend = vx[i]; 
+								endindex = i; 
 
-					eg.push([0]);
-					for(var i = 0; i < vx.length; i++){
-						for(var j = eg[i].length; j < vx.length; j ++){
-							eg[i].push(0);
+								ctx.beginPath();
+								ctx.moveTo((480*linestart.x), (800*linestart.y));
+								ctx.lineTo((480*lineend.x), (800*lineend.y));
+								ctx.stroke();
+
+								eg[startindex][endindex] = 1;
+								eg[endindex][startindex] = 1;
+
+
+								linestart = null;
+								lineend = null;
+							}
+
 						}
-					}
 
+
+							
+					}
+					if(incircle == false)
+					{
+						ctx.beginPath();
+						ctx.arc(oldX , oldY, 10, 0, 2*Math.PI);
+						ctx.stroke();
+
+						vx.push({x:x, y:y});
+
+						eg.push([0]);
+						for(var i = 0; i < vx.length; i++){
+							for(var j = eg[i].length; j < vx.length; j ++){
+								eg[i].push(0);
+							}
+						}
+					} 
 
 					document.getElementById("out").innerHTML = JSON.stringify(obj, null, 4);
 				}
@@ -70,6 +112,10 @@
 							document.documentElement.scrollTop;
 				}
 
+			}
+			function distance(x1, x2, y1, y2)
+			{
+				return Math.sqrt((Math.pow((x1-x2), 2)) + (Math.pow((y1-y2), 2))); 
 			}
 
 		</script>
