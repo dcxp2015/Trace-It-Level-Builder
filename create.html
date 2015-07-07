@@ -31,14 +31,12 @@
 			{
 				var canvas = document.getElementById("canvas");
 
+				drawGrid();
+
 				canvas.addEventListener("mousedown", getPosition, false);
 			}
 
-			function getPosition(event)
-			{
-				var x = new Number();
-				var y = new Number();
-
+			function drawGrid(){
 				var canvas = document.getElementById("canvas");
 				var ctx = canvas.getContext("2d");
 				
@@ -92,6 +90,16 @@
 				ctx.lineTo(480, (1600/3))
 				ctx.stroke();
 				//end of creation of grid
+				
+			}
+
+			function getPosition(event)
+			{
+				var x = new Number();
+				var y = new Number();
+				var canvas = document.getElementById("canvas");
+				var ctx = canvas.getContext("2d");
+
 				if (event.x != undefined && event.y != undefined)
 				{
 					x = event.x;
