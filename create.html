@@ -22,6 +22,7 @@
 			var obj = {
 				vertices: vx,
 				edges: eg
+
 			};
 
 			document.addEventListener("DOMContentLoaded", init, false);
@@ -29,6 +30,7 @@
 			function init()
 			{
 				var canvas = document.getElementById("canvas");
+
 				canvas.addEventListener("mousedown", getPosition, false);
 			}
 
@@ -36,10 +38,60 @@
 			{
 				var x = new Number();
 				var y = new Number();
+
 				var canvas = document.getElementById("canvas");
 				var ctx = canvas.getContext("2d");
+				
+				ctx.beginPath();
+				ctx.moveTo(120, 0)
+				ctx.lineTo(120, 800)
+				ctx.stroke();
 
+				ctx.beginPath();
+				ctx.moveTo(240, 0)
+				ctx.lineTo(240, 800)
+				ctx.stroke();
 
+				ctx.beginPath();
+				ctx.moveTo(360, 0)
+				ctx.lineTo(360, 800)
+				ctx.stroke();
+
+				ctx.beginPath();
+				ctx.moveTo(160, 0)
+				ctx.lineTo(160, 800)
+				ctx.stroke();
+				
+				ctx.beginPath();
+				ctx.moveTo(320, 0)
+				ctx.lineTo(320, 800)
+				ctx.stroke();
+
+				ctx.beginPath();
+				ctx.moveTo(0, 200)
+				ctx.lineTo(480, 200)
+				ctx.stroke();
+
+				ctx.beginPath();
+				ctx.moveTo(0, 400)
+				ctx.lineTo(480, 400)
+				ctx.stroke();
+
+				ctx.beginPath();
+				ctx.moveTo(0, 600)
+				ctx.lineTo(480, 600)
+				ctx.stroke();
+
+				ctx.beginPath();
+				ctx.moveTo(0, (800/3))
+				ctx.lineTo(480, (800/3))
+				ctx.stroke();
+
+				ctx.beginPath();
+				ctx.moveTo(0, (1600/3))
+				ctx.lineTo(480, (1600/3))
+				ctx.stroke();
+				//end of creation of grid
 				if (event.x != undefined && event.y != undefined)
 				{
 					x = event.x;
