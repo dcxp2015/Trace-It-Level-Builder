@@ -95,6 +95,126 @@
 				
 			}
 
+			function isSolved(edgeList){
+				for(var i = 0; i < edgeList.length; i++){
+					for(var j = 0; j < edgeList[i].length; j++){
+						if(edgeList[i][j] == 1){
+							return false;
+						}
+					}
+				}
+				return true;
+			}
+
+			function countOnesInRow(singleEdgeList){
+				var count = 0;
+				for(var i = 0; i < singleEdgeList.length; i++){
+					if(singleEdgeList[i] == 1){
+						count += 1;
+					}
+				}
+				return count;
+			}
+
+			function validation(edgeList){
+
+				// console.log("validation begin");
+
+				var numOddEdges = 0;
+				var oddEdgeListIndex = [];
+				var startVertex;
+				var onesLeftInRow;
+				var h;
+
+				// Count vertices that have an odd number of connections
+				for(var i = 0; i < edgeList.length; i ++){
+					var counter = 0;
+					for(var j = 0; j < edgeList[i].length; j ++){
+						if(edgeList[i][j] == 1){
+							counter += 1;
+						}
+					}
+					if(counter % 2 == 1){
+						numOddEdges += 1;
+						oddEdgeListIndex.push(i);
+					}
+				}
+				// console.log("numOddEdges: " + numOddEdges);
+				// console.log("oddEdgeListIndex: " + oddEdgeListIndex);
+
+				// Validate false if odd number of vertices have odd number connections
+				if(numOddEdges % 2 == 1){
+					return false;
+				}
+
+				// If there are vertices with odd number of edges, start there. Else start at vertex 0
+				if(numOddEdges > 0){
+					startVertex = oddEdgeListIndex[0];
+				}
+				else{
+					startVertex = 0;
+				}
+
+				// Begin traversing a path
+
+				onesLeftInRow = countOnesInRow(edgeList[startVertex]);
+
+				// console.log("onesLeftInRow: " + onesLeftInRow);
+				// console.log("startVertex index: " + startVertex);
+				// console.log("starting edgeList: " + edgeList[startVertex]);
+
+				while(onesLeftInRow > 0){
+
+					var nextRow = [];
+
+					// console.log(edgeList[startVertex]);
+
+					// Find heuristic
+					for(var i = 0; i < edgeList[startVertex].length; i ++){
+						
+						if(edgeList[startVertex][i] == 0){
+							nextRow.push(0);
+						}
+						else{
+							nextRow.push(countOnesInRow(edgeList[i]))
+						}
+
+					}
+
+					// Pick next vertex
+					var maxIndex = 0;
+					var maxVal = nextRow[0];
+					for(var i = 0; i < nextRow.length; i++){
+						if(nextRow[i] > maxVal){
+							maxIndex = i;
+						}
+					}
+
+					h = maxIndex;
+
+					edgeList[startVertex][h] = 0;
+					edgeList[h][startVertex] = 0;
+					startVertex = h;
+					// console.log("next vertex: " + startVertex);
+
+					onesLeftInRow = countOnesInRow(edgeList[startVertex]);
+				}
+
+				var oneCounter = 0;
+
+				for(var i = 0; i < edgeList.length; i ++){
+					for(var j = 0; j ++ < edgeList[i].length; j ++){
+						if(edgeList[i][j] == 1){
+							oneCounter += 1;
+						}
+					}
+				}
+
+
+				return (oneCounter == 0);
+
+			}
+
 			function getPosition(event)
 			{
 				var x = new Number();
@@ -115,18 +235,15 @@
 					
 					for(i = 0; i < vx.length; i++)
 					{
-						// console.log(distance(x*480, vx[i].x * 480, y * 800, vx[i].y * 800)); 
 
 						if (distance(x*480, vx[i].x * 480, y * 800, vx[i].y * 800) < 20)
 						{
 							incircle = true; 
 							if(linestart == null){
-								// console.log("set linestart")
 								linestart = vx[i];
 								startindex = i; 
 							}
 							else if(linestart != null){
-								// console.log("set lineend")
 								lineend = vx[i]; 
 								endindex = i; 
 
@@ -154,10 +271,7 @@
 					{
 						var newX = x*480;
 						var newY = y*800;
-						console.log(newX)
 						for(var i = 0; i < vgridlines.length; i++){
-							console.log(vgridlines[i]);
-							console.log(Math.abs(newX - vgridlines[i]));
 							if(Math.abs(newX - vgridlines[i]) < 10){
 								newX = vgridlines[i];
 							}
@@ -184,7 +298,26 @@
 								eg[i].push(0);
 							}
 						}
+
 					} 
+
+
+					// broken validation
+					// validation of deepcopy of eg
+
+					if(eg.length > 1){
+						// create deepcopy
+						var egCopy = [];
+						for(var i = 0; i < eg.length; i++){
+							egCopy.push([]);
+							for(var j = 0; j < eg[i].length; j ++){
+								egCopy[i][j] = eg[i][j];
+							}
+						}
+						working = validation(egCopy);
+						document.getElementById("result").innerHTML = working;
+						// console.log(working);
+					}
 
 					document.getElementById("out").innerHTML = JSON.stringify(obj, null, 4);
 				}
@@ -208,6 +341,9 @@
 
 	<body>
 		<canvas id="canvas" width="480" height="800"></canvas>
+		<!-- <button type="button" onclick="validation(edgeList)">Validate</button> -->
+		<h3 align="right">Validation</h3>
+		<div id="result" align="right"></div>
 		<div id="out" align="right"> 
 		
 		</div>
