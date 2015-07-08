@@ -143,75 +143,78 @@
 				// console.log("oddEdgeListIndex: " + oddEdgeListIndex);
 
 				// Validate false if odd number of vertices have odd number connections
-				if(numOddEdges % 2 == 1){
+				if(numOddEdges == 0 || numOddEdges == 2){
+					return true;
+				}
+				else{
 					return false;
 				}
 
-				// If there are vertices with odd number of edges, start there. Else start at vertex 0
-				if(numOddEdges > 0){
-					startVertex = oddEdgeListIndex[0];
-				}
-				else{
-					startVertex = 0;
-				}
+				// // If there are vertices with odd number of edges, start there. Else start at vertex 0
+				// if(numOddEdges > 0){
+				// 	startVertex = oddEdgeListIndex[0];
+				// }
+				// else{
+				// 	startVertex = 0;
+				// }
 
-				// Begin traversing a path
+				// // Begin traversing a path
 
-				onesLeftInRow = countOnesInRow(edgeList[startVertex]);
+				// onesLeftInRow = countOnesInRow(edgeList[startVertex]);
 
-				// console.log("onesLeftInRow: " + onesLeftInRow);
-				// console.log("startVertex index: " + startVertex);
-				// console.log("starting edgeList: " + edgeList[startVertex]);
+				// // console.log("onesLeftInRow: " + onesLeftInRow);
+				// // console.log("startVertex index: " + startVertex);
+				// // console.log("starting edgeList: " + edgeList[startVertex]);
 
-				while(onesLeftInRow > 0){
+				// while(onesLeftInRow > 0){
 
-					var nextRow = [];
+				// 	var nextRow = [];
 
-					// console.log(edgeList[startVertex]);
+				// 	// console.log(edgeList[startVertex]);
 
-					// Find heuristic
-					for(var i = 0; i < edgeList[startVertex].length; i ++){
+				// 	// Find heuristic
+				// 	for(var i = 0; i < edgeList[startVertex].length; i ++){
 						
-						if(edgeList[startVertex][i] == 0){
-							nextRow.push(0);
-						}
-						else{
-							nextRow.push(countOnesInRow(edgeList[i]))
-						}
+				// 		if(edgeList[startVertex][i] == 0){
+				// 			nextRow.push(0);
+				// 		}
+				// 		else{
+				// 			nextRow.push(countOnesInRow(edgeList[i]))
+				// 		}
 
-					}
+				// 	}
 
-					// Pick next vertex
-					var maxIndex = 0;
-					var maxVal = nextRow[0];
-					for(var i = 0; i < nextRow.length; i++){
-						if(nextRow[i] > maxVal){
-							maxIndex = i;
-						}
-					}
+				// 	// Pick next vertex
+				// 	var maxIndex = 0;
+				// 	var maxVal = nextRow[0];
+				// 	for(var i = 0; i < nextRow.length; i++){
+				// 		if(nextRow[i] > maxVal){
+				// 			maxIndex = i;
+				// 		}
+				// 	}
 
-					h = maxIndex;
+				// 	h = maxIndex;
 
-					edgeList[startVertex][h] = 0;
-					edgeList[h][startVertex] = 0;
-					startVertex = h;
-					// console.log("next vertex: " + startVertex);
+				// 	edgeList[startVertex][h] = 0;
+				// 	edgeList[h][startVertex] = 0;
+				// 	startVertex = h;
+				// 	// console.log("next vertex: " + startVertex);
 
-					onesLeftInRow = countOnesInRow(edgeList[startVertex]);
-				}
+				// 	onesLeftInRow = countOnesInRow(edgeList[startVertex]);
+				// }
 
-				var oneCounter = 0;
+				// var oneCounter = 0;
 
-				for(var i = 0; i < edgeList.length; i ++){
-					for(var j = 0; j ++ < edgeList[i].length; j ++){
-						if(edgeList[i][j] == 1){
-							oneCounter += 1;
-						}
-					}
-				}
+				// for(var i = 0; i < edgeList.length; i ++){
+				// 	for(var j = 0; j ++ < edgeList[i].length; j ++){
+				// 		if(edgeList[i][j] == 1){
+				// 			oneCounter += 1;
+				// 		}
+				// 	}
+				// }
 
 
-				return (oneCounter == 0);
+				// return (oneCounter == 0);
 
 			}
 
